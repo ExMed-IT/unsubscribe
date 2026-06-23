@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form
+      id="unsubForm"
+      action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8"
+      method="POST"
+      style="display: none"
+    >
+      <input type="hidden" name="orgid" value="00Dxxxxxxxxxxxx" />
+
+      <input
+        type="hidden"
+        name="retURL"
+        value="https://www.yourdomain.com/unsubscribed-success"
+      />
+
+      <input type="hidden" name="subject" value="Unsubscribe" />
+
+      <input type="hidden" id="email" name="email" value="" />
+    </form>
+
+    <script>
+      // 1. Grab the email address from the URL (e.g., ?email=test@test.com)
+      const urlParams = new URLSearchParams(window.location.search);
+      const userEmail = urlParams.get("email");
+
+      // 2. If an email is found, fill the hidden form and submit it to Salesforce
+      if (userEmail) {
+        document.getElementById("email").value = userEmail;
+        document.getElementById("unsubForm").submit();
+      }
+    </script>
+  </body>
+</html>
