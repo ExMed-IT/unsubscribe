@@ -1,35 +1,95 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Unsubscribe</title>
-  </head>
-  <body>
-    <form
-      id="unsubForm"
-      action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8&orgId=00DKj00000ECvKA"
-      method="POST"
-      style="display: none"
-    >
-      <input type=hidden name="orgid" value="00DKj00000ECvKA">
-      <input type=hidden name="retURL" value="https://unsubscribe.exmedinc.com/unsubscribe-success"/>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unsubscribe</title>
+  <style>
+    /* Basic styling for a clean, centered form */
+    body { 
+      font-family: Arial, sans-serif; 
+      background-color: #f4f4f9;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .form-container {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    input[type="email"] { 
+      width: 100%; 
+      padding: 12px; 
+      margin: 20px 0; 
+      border: 1px solid #ccc; 
+      border-radius: 4px; 
+      box-sizing: border-box; 
+      font-size: 16px;
+    }
+    button { 
+      background-color: #0056b3; 
+      color: white; 
+      padding: 12px 20px; 
+      border: none; 
+      border-radius: 4px; 
+      cursor: pointer; 
+      font-size: 16px; 
+      width: 100%;
+    }
+    button:hover { 
+      background-color: #004494; 
+    }
+  </style>
+</head>
+<body>
 
-      <input type="hidden" name="subject" value="Unsubscribe" />
+  <div class="form-container">
+    <h2>Unsubscribe</h2>
+    <p>Please confirm your email address below to unsubscribe from our mailing list.</p>
 
-      <input type="hidden" id="email" name="email" value="" />
+    <!-- Web-to-Case Form -->
+    <form id="unsubForm" action="https://webto.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8" method="POST">
+      
+      <!-- Replace the value below with your orgid -->
+      <input type="hidden" name="orgid" value="00Dxxxxxxxxxxxx">
+      
+      <!-- Replace the value below with your actual success page URL -->
+      <input type="hidden" name="retURL" value="https://www.yourdomain.com/unsubscribed-success">
+      
+      <!-- Hidden Subject line for the Flow -->
+      <input type="text" id="subject" name="subject" value="Unsubscribe" style="display:none;">
+      
+      <!-- Visible Email Input -->
+      <input type="email" id="email" name="email" required placeholder="Enter your email address">
+      
+      <!-- Submit Button -->
+      <button type="submit">Unsubscribe</button>
     </form>
+  </div>
 
-    <script>
-      // 1. Grab the email address from the URL (e.g., ?email=test@test.com)
-      const urlParams = new URLSearchParams(window.location.search);
-      const userEmail = urlParams.get("email");
+  <script>
+    // 1. Grab the email address from the URL parameter (?email=test@test.com)
+    const urlParams = new URLSearchParams(window.location.search);
+    const userEmail = urlParams.get('email');
 
-      // 2. If an email is found, fill the hidden form and submit it to Salesforce
-      if (userEmail) {
-        document.getElementById("email").value = userEmail;
-        document.getElementById("unsubForm").submit();
-      }
-    </script>
-  </body>
+    // 2. If an email is found, PRE-FILL the visible input field
+    if (userEmail) {
+      document.getElementById('email').value = userEmail;
+    }
+
+    // 3. Ensure the hidden subject is injected right as the user clicks submit
+    document.getElementById('unsubForm').addEventListener('submit', function() {
+      document.getElementById('subject').value = 'Unsubscribe';
+    });
+  </script>
+
+</body>
 </html>
